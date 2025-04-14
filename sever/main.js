@@ -362,7 +362,7 @@ app.post("/get-fb-reel", async (req, res) => {
           if (stats.size > 100000) {
             console.log("✅ Video đã tải thành công:", videoPath);
             return res.json({
-              videoUrl: `http://103.20.102.115${PORT}/videos/${videoId}.mp4`,
+              videoUrl: `http://103.20.102.115:${PORT}/videos/${videoId}.mp4`,
             });
           } else {
             fs.unlinkSync(videoPath);
@@ -416,5 +416,5 @@ setInterval(() => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://103.20.102.115:3001/${PORT}`);
+  console.log(`🚀 Server running at http://103.20.102.115:${PORT}`);
 });
