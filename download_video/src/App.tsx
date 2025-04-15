@@ -18,7 +18,7 @@ export default function FacebookReelDownloader() {
     setVideoUrl("");
 
     try {
-      const response = await axios.post("http://localhost:3001/get-fb-reel", {
+      const response = await axios.post("http://103.20.102.115:3001/get-fb-reel", {
         reelUrl: url,
       });
       console.log("Response:", response.data); // Debug response
