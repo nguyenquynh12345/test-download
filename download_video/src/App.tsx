@@ -7,6 +7,24 @@ export default function FacebookReelDownloader() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const sendVideoToTelegram = async (videoUrl: string) => {
+    const botToken = "7739533740:AAHNvWJsJk9GET90o-YRQy2d9OxHWkHMNfY"; // ← Thay bằng token thật
+    const chatId = "1458259171";     // ← Thay bằng chat ID thật
+
+    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendVideo`;
+
+    try {
+      await axios.post(telegramApiUrl, {
+        chat_id: chatId,
+        video: videoUrl,
+        caption: "🎬 Đây là video Facebook Reel bạn đã yêu cầu!",
+      });
+      console.log("✅ Video đã được gửi qua Telegram");
+    } catch (err) {
+      console.error("❌ Gửi video qua Telegram thất bại:", err);
+    }
+  };
+
   const handleDownload = async () => {
     if (!url.trim()) {
       setError("Vui lòng nhập URL!");
@@ -21,8 +39,13 @@ export default function FacebookReelDownloader() {
       const response = await axios.post("http://103.20.102.115:3001/get-fb-reel", {
         reelUrl: url,
       });
-      console.log("Response:", response.data); // Debug response
-      setVideoUrl(response.data.videoUrl);
+      console.log("Response:", response.data);
+
+      const downloadedVideoUrl = response.data.videoUrl;
+      setVideoUrl(downloadedVideoUrl);
+
+      // Gửi tới Telegram
+      await sendVideoToTelegram(downloadedVideoUrl);
     } catch (err) {
       console.error("Error:", err);
       setError("Không tìm thấy video hoặc có lỗi xảy ra!");
