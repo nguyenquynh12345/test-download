@@ -24,7 +24,7 @@ if (!fs.existsSync(videosDir)) {
 }
 
 app.post("/get-fb-reel", async (req, res) => {
-    const { reelUrl } = req.body;
+    const { reelUrl, description } = req.body;
 
     if (!reelUrl || !reelUrl.includes("facebook.com/reel")) {
         return res.status(400).json({ error: "Invalid URL" });
@@ -227,7 +227,7 @@ app.post("/get-fb-reel", async (req, res) => {
                         const formData = new FormData();
                         formData.append('access_token', 'EAAKItZCZAlZCMIBO6VMIZBTqxv2X9Hq3vqksfI2Ly4Av5sP1qW7f7vqnn8ruhBGwlHQGwx47Isa1zPS2yZAJm1HxZCqS5IW7pDGWWjN63376rYzUeDdbg6yZCNHYyL91w9OqZCLNuHleqIBFcO6R0VLSP3AfiyDG41bZBs9pPHIxRnPK9ZBDxKZBPU3EBUGxkWtN0lZCZCsd2vbFb9GK145XFWjtJe28ZD'); // Replace with your token
                         formData.append('source', fs.createReadStream(finalVideoPath));
-                        formData.append('description', 'Đây là video tải lên tự động');
+                        formData.append('description', description);
 
                         try {
                             const response = await axios.post(
@@ -350,7 +350,7 @@ app.post("/get-fb-reel", async (req, res) => {
                         const formData = new FormData();
                         formData.append('access_token', 'EAAKItZCZAlZCMIBO6VMIZBTqxv2X9Hq3vqksfI2Ly4Av5sP1qW7f7vqnn8ruhBGwlHQGwx47Isa1zPS2yZAJm1HxZCqS5IW7pDGWWjN63376rYzUeDdbg6yZCNHYyL91w9OqZCLNuHleqIBFcO6R0VLSP3AfiyDG41bZBs9pPHIxRnPK9ZBDxKZBPU3EBUGxkWtN0lZCZCsd2vbFb9GK145XFWjtJe28ZD'); // Replace with your token
                         formData.append('source', fs.createReadStream(finalPath));
-                        formData.append('description', 'Đây là video tải lên tự động');
+                        formData.append('description', description);
 
                         try {
                             const response = await axios.post(
