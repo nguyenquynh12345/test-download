@@ -47,7 +47,7 @@ export default function FacebookReelDownloader() {
       <input
         type="text"
         placeholder="Mô tả"
-        value={url}
+        value={description}
         onChange={(e) => setDescription(e.target.value)}
         style={{ width: "100%", padding: "0.5em", marginBottom: "1em" }}
         disabled={loading}
