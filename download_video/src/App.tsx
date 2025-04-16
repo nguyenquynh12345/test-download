@@ -3,31 +3,14 @@ import axios from "axios";
 
 export default function FacebookReelDownloader() {
   const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const sendVideoToTelegram = async (videoUrl: string) => {
-    const botToken = "7739533740:AAHNvWJsJk9GET90o-YRQy2d9OxHWkHMNfY"; // ← Thay bằng token thật
-    const chatId = "1458259171";     // ← Thay bằng chat ID thật
-
-    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendVideo`;
-
-    try {
-      await axios.post(telegramApiUrl, {
-        chat_id: chatId,
-        video: videoUrl,
-        caption: "🎬 Đây là video Facebook Reel bạn đã yêu cầu!",
-      });
-      console.log("✅ Video đã được gửi qua Telegram");
-    } catch (err) {
-      console.error("❌ Gửi video qua Telegram thất bại:", err);
-    }
-  };
-
   const handleDownload = async () => {
     if (!url.trim()) {
-      setError("Vui lòng nhập URL!");
+      setError("Vui lòng nhập URL V Mô tả");
       return;
     }
 
@@ -38,14 +21,10 @@ export default function FacebookReelDownloader() {
     try {
       const response = await axios.post("http://103.20.102.115:3001/get-fb-reel", {
         reelUrl: url,
+        description: description,
       });
-      console.log("Response:", response.data);
-
-      const downloadedVideoUrl = response.data.videoUrl;
-      setVideoUrl(downloadedVideoUrl);
-
-      // Gửi tới Telegram
-      await sendVideoToTelegram(downloadedVideoUrl);
+      console.log("Response:", response.data); // Debug response
+      setVideoUrl(response.data.videoUrl);
     } catch (err) {
       console.error("Error:", err);
       setError("Không tìm thấy video hoặc có lỗi xảy ra!");
@@ -61,6 +40,14 @@ export default function FacebookReelDownloader() {
         placeholder="Dán link reel tại đây..."
         value={url}
         onChange={(e) => setUrl(e.target.value)}
+        style={{ width: "100%", padding: "0.5em", marginBottom: "1em" }}
+        disabled={loading}
+      />
+      <input
+        type="text"
+        placeholder="Mô tả"
+        value={url}
+        onChange={(e) => setDescription(e.target.value)}
         style={{ width: "100%", padding: "0.5em", marginBottom: "1em" }}
         disabled={loading}
       />
